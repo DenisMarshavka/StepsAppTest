@@ -1,6 +1,6 @@
 export const COLORS = {
   white: '#fff',
-  whiteLighten: 'rgba(255, 255, 255, .3)',
+  whiteLighten: 'rgba(255, 255, 255, .2)',
   primary: '#171D4D',
   yellow: '#F5BF45',
   green: '#5BC665',

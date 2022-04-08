@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {API} from '../utils';
 
-const useTodoFetchData = () => {
+export const useTodoFetchData = () => {
   const [pending, setPending] = React.useState(false);
 
   const generateRequest = React.useCallback(
@@ -39,6 +39,4 @@ const useTodoFetchData = () => {
       await generateRequest('post', {...data}),
     pending,
   };
-};
-
-export default useTodoFetchData;
+}

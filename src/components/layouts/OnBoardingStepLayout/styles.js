@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
 
   root: {
-    paddingVertical: 50,
+    paddingBottom: 50,
     backgroundColor: COLORS.primary,
     flex: 1,
   },

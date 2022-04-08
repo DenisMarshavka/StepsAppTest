@@ -1,16 +1,17 @@
 import React from 'react';
 import {Text, View, TextInput, ScrollView} from 'react-native';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
+import {useTodoFetchData} from '../../../hook';
 import styles from './styles';
 import Button from '../../../components/common/Button';
 import Task from '../../../components/Todo/Task';
 import {API} from '../../../utils';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
-import useTodoFetchData from '../../../hook/useTodoFetchData';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {withChekOnBoardingsVisited} from '../../../components/hoc';
 
 const Todo = () => {
-  const [nameNewTask, setNameNewTask] = React.useState('asdfasdfasdfasdf');
+  const [nameNewTask, setNameNewTask] = React.useState();
   const [tasks, setTasks] = React.useState([]);
   const bottomTabsHeight = useBottomTabBarHeight();
 
@@ -76,8 +77,6 @@ const Todo = () => {
           },
         };
 
-        console.log({newDataList});
-
         //await updateTaskById({id, ...newData});
       }
 
@@ -118,6 +117,7 @@ const Todo = () => {
             title="Add"
             onPress={handleAddNewTask}
             style={styles.addBtn}
+            disabled={!nameNewTask || !nameNewTask.trim?.()}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -155,4 +155,4 @@ const Todo = () => {
   );
 };
 
-export default React.memo(Todo);
+export default React.memo(withChekOnBoardingsVisited(Todo));

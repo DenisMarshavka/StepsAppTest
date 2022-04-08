@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
 
+//TODO: Finished
 const Home = () => {
   return (
     <View style={styles.root}>

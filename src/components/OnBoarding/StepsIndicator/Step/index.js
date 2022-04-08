@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+
 import styles from './styles';
 import {COLORS} from '../../../../utils/theme';
 
@@ -21,12 +22,12 @@ const Step = ({
           },
           done && {backgroundColor: COLORS.green, borderColor: COLORS.green},
           circleStyle,
-          disabled && {opacity: 0.5},
+          disabled && {borderColor: COLORS.whiteLighten},
         ]}>
-        <Text style={styles.circleNumberText}>{number}</Text>
+        <Text style={[styles.circleNumberText, disabled && {color: COLORS.whiteLighten}]}>{number}</Text>
       </View>
 
-      <Text style={[styles.title, disabled && {opacity: 0.5}]}>
+      <Text style={[styles.title, disabled && {color: COLORS.whiteLighten}]}>
         Step {number}
       </Text>
     </View>
