@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, TextInput, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
@@ -9,6 +16,7 @@ import Button from '../../../components/common/Button';
 import Task from '../../../components/Todo/Task';
 import {API} from '../../../utils';
 import {withChekOnBoardingsVisited} from '../../../components/hoc';
+import {COLORS} from '../../../utils/theme';
 
 const Todo = () => {
   const [nameNewTask, setNameNewTask] = React.useState();
@@ -56,16 +64,15 @@ const Todo = () => {
     if (nameNewTask.trim?.()) {
       setTasks((prevState = []) => [...prevState, newDataItem]);
 
-      //setNameNewTask('');
-      //await createNewTaskItem({...newDataBody});
-      //await fetchListData();
+      setNameNewTask('');
+      await createNewTaskItem({...newDataBody});
+      await fetchListData();
     }
   }, [createNewTaskItem, nameNewTask, fetchListData]);
 
   const handleChangeTaskData = React.useCallback(
     async (id = -1, newData = {}) => {
       const newDataList = [...tasks];
-      const newItemData = {...newData, id};
       const currItemIndex = getItemIndexById(id);
 
       if (currItemIndex > -1) {
@@ -73,16 +80,17 @@ const Todo = () => {
           ...newDataList[currItemIndex],
           attributes: {
             ...newDataList[currItemIndex].attributes,
-            ...newItemData,
+            ...newData,
           },
         };
 
-        //await updateTaskById({id, ...newData});
+        setTasks(newDataList);
+        await updateTaskById(id, {...newData});
       }
 
-      setTasks(newDataList);
+      await fetchListData();
     },
-    [tasks, getItemIndexById, updateTaskById],
+    [tasks, getItemIndexById, updateTaskById, fetchListData],
   );
 
   const handleTaskDelete = React.useCallback(
@@ -95,9 +103,10 @@ const Todo = () => {
         setTasks(newData);
 
         await deleteTaskById(id);
+        await fetchListData();
       }
     },
-    [tasks, getItemIndexById, deleteTaskById],
+    [tasks, getItemIndexById, deleteTaskById, fetchListData],
   );
 
   const renderInputSection = React.useCallback(
@@ -111,6 +120,7 @@ const Todo = () => {
             value={nameNewTask}
             onChangeText={setNameNewTask}
             style={styles.input}
+            placeholder={'Some title'}
           />
 
           <Button
@@ -145,12 +155,25 @@ const Todo = () => {
     [handleChangeTaskData, handleTaskDelete, bottomTabsHeight, tasks],
   );
 
+  const renderLoading = React.useCallback(
+    () => (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size={20} color={COLORS.primary} />
+      </View>
+    ),
+    [],
+  );
+
   return (
     <View style={styles.root}>
-      <Text style={styles.title}>Todo screen</Text>
+      <SafeAreaView>
+        <Text style={styles.title}>Main screen</Text>
+      </SafeAreaView>
 
       <View style={styles.body}>{renderInputSection()}</View>
-      <View style={styles.listSection}>{renderListSection()}</View>
+      <View style={styles.listSection}>
+        {!tasks?.length && pending ? renderLoading() : renderListSection()}
+      </View>
     </View>
   );
 };

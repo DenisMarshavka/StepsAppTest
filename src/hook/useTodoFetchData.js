@@ -8,17 +8,21 @@ export const useTodoFetchData = () => {
   const generateRequest = React.useCallback(
     async (method = 'get', data = {id: -1}, ...restProps) => {
       let res = {data: {data: []}};
-      const {id} = data ?? {};
+      const {id, ...restDataProps} = data ?? {};
 
-      console.log({id});
       const url =
         method === 'put' || method === 'delete'
           ? `${API.todos}/${id}`
           : API.todos;
-      setPending(true);
 
+      let options =
+        method === 'get' || method === 'delete'
+          ? [url]
+          : [url, {data: {...restDataProps}}, ...restProps];
+
+      setPending(true);
       try {
-        res = await axios[method](url, {...data}, ...restProps);
+        res = await axios[method](...options);
         setPending(false);
       } catch (error) {
         setPending(false);
@@ -34,9 +38,9 @@ export const useTodoFetchData = () => {
     getList: async () => await generateRequest(),
     deleteTaskById: async (id = -1) => await generateRequest('delete', {id}),
     updateTaskById: async (id, data = {}) =>
-      await generateRequest('put', {data: {id, ...data}}),
+      await generateRequest('put', {id, ...data}),
     createNewTaskItem: async (data = {}) =>
       await generateRequest('post', {...data}),
     pending,
   };
-}
+};

@@ -1,14 +1,13 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-
+import {SafeAreaView, Text, View} from 'react-native';
 import styles from './styles';
 
-const Profile = () => {
-  return (
-    <View style={styles.root}>
+const Profile = () => (
+  <View style={styles.root}>
+    <SafeAreaView>
       <Text>Profile screen</Text>
-    </View>
-  );
-};
+    </SafeAreaView>
+  </View>
+);
 
 export default React.memo(Profile);

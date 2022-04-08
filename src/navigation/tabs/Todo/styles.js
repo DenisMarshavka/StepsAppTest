@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../../utils/theme';
 
 export default StyleSheet.create({
@@ -28,6 +28,11 @@ export default StyleSheet.create({
   },
   listSection: {
     marginTop: 10,
+  },
+  loadingContainer: {
+    paddingTop: Dimensions.get('screen').height / 3.3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   list: {
     paddingTop: 20,

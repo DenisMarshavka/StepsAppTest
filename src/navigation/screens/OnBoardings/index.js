@@ -1,6 +1,6 @@
 import React from 'react';
 import {StatusBar, Text, View} from 'react-native';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
