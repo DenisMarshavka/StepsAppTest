@@ -56,7 +56,7 @@ const OnBoardingsStack = () => {
                 allOnBoardingsLength={data.length}
                 indexKey={index}
                 onEnd={async () => {
-                  navigation.navigate(SCREEN_NAMES.Home);
+                  navigation.navigate(SCREEN_NAMES.Main);
                   await AsyncStorage.setItem(
                     STORAGE_KEYS.onBoardingsVisited,
                     'true',

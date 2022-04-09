@@ -4,14 +4,13 @@ import {Image, StatusBar} from 'react-native';
 
 import Todo from './Todo';
 import Profile from './Profile';
-import {SCREEN_NAMES} from '../../utils';
-import {COLORS, ICONS} from '../../utils/theme';
+import {SCREEN_NAMES, UNIQUE_SCREENS_TITLES} from '../../../utils';
+import {COLORS, ICONS} from '../../../utils/theme';
 
 const Tab = createBottomTabNavigator();
-
 const ICON_SIZE = 25;
 
-const TabsNavigator = () => (
+const MainStack = () => (
   <>
     <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
 
@@ -31,10 +30,14 @@ const TabsNavigator = () => (
           />
         ),
       }}>
-      <Tab.Screen name={SCREEN_NAMES.Todo} component={Todo} />
+      <Tab.Screen
+        name={SCREEN_NAMES.Todo}
+        component={Todo}
+        options={{title: UNIQUE_SCREENS_TITLES[SCREEN_NAMES.Todo]}}
+      />
       <Tab.Screen name={SCREEN_NAMES.Profile} component={Profile} />
     </Tab.Navigator>
   </>
 );
 
-export default React.memo(TabsNavigator);
+export default React.memo(MainStack);

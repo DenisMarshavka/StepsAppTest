@@ -2,12 +2,15 @@ import React from 'react';
 import {Text, View, SafeAreaView, ActivityIndicator} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import {useTodoFetchData} from '../../../hook';
+import {useTodoFetchData} from '../../../../hook';
 import styles from './styles';
-import {API} from '../../../utils';
-import {withChekOnBoardingsVisited} from '../../../hoc';
-import {COLORS} from '../../../utils/theme';
-import {SearchSection, ToDoList} from '../../../components';
+import {API} from '../../../../utils';
+import {withChekOnBoardingsVisited} from '../../../../hoc';
+import {COLORS} from '../../../../utils/theme';
+import {SearchSection, ToDoList} from '../../../../components';
+import {showAlert} from '../../../../utils/functions';
+
+const MIN_SEARCH_VALUE_LENGTH = 5;
 
 const Todo = () => {
   const [nameNewTask, setNameNewTask] = React.useState();
@@ -52,13 +55,33 @@ const Todo = () => {
     const newDataBody = {title: nameNewTask, completed: false};
     const newDataItem = {id: Date.now(), attributes: {...newDataBody}};
 
-    if (nameNewTask.trim?.()) {
-      setTasks((prevState = []) => [...prevState, newDataItem]);
-
-      setNameNewTask('');
-      await createNewTaskItem({...newDataBody});
-      await fetchListData();
+    if (
+      !nameNewTask ||
+      !nameNewTask.trim?.() ||
+      !nameNewTask?.length ||
+      nameNewTask.length < MIN_SEARCH_VALUE_LENGTH
+    ) {
+      showAlert(
+        'Error value',
+        'The Search value is invalid (Minimum 5 characters)',
+        [
+          [
+            {
+              text: 'Ok',
+              onPress: () => null,
+              style: 'success',
+            },
+          ],
+        ],
+      );
+      return;
     }
+
+    setTasks((prevState = []) => [...prevState, newDataItem]);
+    setNameNewTask('');
+
+    await createNewTaskItem({...newDataBody});
+    await fetchListData();
   }, [createNewTaskItem, nameNewTask, fetchListData]);
 
   const handleChangeTaskData = React.useCallback(
@@ -119,7 +142,7 @@ const Todo = () => {
         <KeyboardAwareScrollView
           scrollEnabled={false}
           enableAutomaticScroll
-          enableOnAndroid>
+          enableOnAndroid={false}>
           <SearchSection
             onChangeInputText={setNameNewTask}
             inputValue={nameNewTask}

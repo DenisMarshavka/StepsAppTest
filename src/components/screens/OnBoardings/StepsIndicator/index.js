@@ -1,8 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
+import propType from 'prop-types';
+
 import styles from './styles';
 import Step from './Step';
-import propType from 'prop-types';
 
 const StepsIndicator = ({activeStep, dataLength}) => (
   <View style={styles.root}>

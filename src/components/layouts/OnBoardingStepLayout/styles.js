@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {COLORS} from '../../../utils/theme';
 
 export default StyleSheet.create({
@@ -25,7 +25,7 @@ export default StyleSheet.create({
   },
   bottomSection: {
     position: 'absolute',
-    bottom: 0,
+    bottom: Platform.OS !== 'ios' ? 35 : 0,
     left: 0,
     paddingHorizontal: 15,
 

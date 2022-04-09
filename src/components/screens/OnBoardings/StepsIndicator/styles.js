@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {COLORS} from '../../../../utils/theme';
 
 export default StyleSheet.create({
@@ -18,12 +18,12 @@ export default StyleSheet.create({
     backgroundColor: COLORS.gray,
     position: 'absolute',
     top: '50%',
-    left: '10%',
+    left: Platform.OS === 'ios' ? '10%' : '15%',
   },
   content: {
     position: 'absolute',
     top: '25%',
-    left: 0,
+    left: Platform.OS === 'ios' ? 0 : '25%',
     bottom: 0,
     right: 0,
     zIndex: 5,
