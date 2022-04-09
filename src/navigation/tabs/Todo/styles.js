@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import {COLORS, SIZES} from '../../../utils/theme';
+import {SIZES} from '../../../utils/theme';
 
 export default StyleSheet.create({
   root: {
@@ -12,20 +12,6 @@ export default StyleSheet.create({
   body: {
     marginTop: 30,
   },
-  inputSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  input: {
-    width: '70%',
-    borderRadius: 30,
-    borderColor: COLORS.gray,
-    borderWidth: 1,
-    padding: 15,
-  },
-  addBtn: {
-    width: '25%',
-  },
   listSection: {
     marginTop: 10,
   },
@@ -33,8 +19,5 @@ export default StyleSheet.create({
     paddingTop: Dimensions.get('screen').height / 3.3,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  list: {
-    paddingTop: 20,
   },
 });

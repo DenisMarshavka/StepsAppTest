@@ -1,11 +1,12 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, Text, View} from 'react-native';
+import propType from 'prop-types';
 
 import styles from './styles';
 import {COLORS} from '../../../utils/theme';
 import Button from '../../common/Button';
 import {SCREEN_NAMES} from '../../../utils';
-import StepsIndicator from '../../OnBoarding/StepsIndicator';
+import StepsIndicator from '../../screens/OnBoardings/StepsIndicator';
 import {useGenerateOnBoardingScreenNameByIndexKey} from '../../../hook';
 
 const OnBoardingStepLayout = ({
@@ -67,6 +68,27 @@ const OnBoardingStepLayout = ({
       </View>
     </>
   );
+};
+
+OnBoardingStepLayout.propTypes = {
+  title: propType.string,
+  description: propType.string,
+  indexKey: propType.number,
+  allOnBoardingsLength: propType.number,
+  onNext: propType.func,
+  onEnd: propType.func,
+  children: propType.any,
+  navigation: propType.shape({}),
+};
+OnBoardingStepLayout.defalutProps = {
+  title: '',
+  description: '',
+  indexKey: 0,
+  allOnBoardingsLength: 1,
+  onNext: () => null,
+  onEnd: () => null,
+  children: null,
+  navigation: {},
 };
 
 export default React.memo(OnBoardingStepLayout);

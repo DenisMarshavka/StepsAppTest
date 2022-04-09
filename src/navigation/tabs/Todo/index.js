@@ -1,27 +1,17 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-  ActivityIndicator,
-} from 'react-native';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {Text, View, SafeAreaView, ActivityIndicator} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {useTodoFetchData} from '../../../hook';
 import styles from './styles';
-import Button from '../../../components/common/Button';
-import Task from '../../../components/Todo/Task';
 import {API} from '../../../utils';
-import {withChekOnBoardingsVisited} from '../../../components/hoc';
+import {withChekOnBoardingsVisited} from '../../../hoc';
 import {COLORS} from '../../../utils/theme';
+import {SearchSection, ToDoList} from '../../../components';
 
 const Todo = () => {
   const [nameNewTask, setNameNewTask] = React.useState();
   const [tasks, setTasks] = React.useState([]);
-  const bottomTabsHeight = useBottomTabBarHeight();
 
   const {
     getList = () => null,
@@ -40,6 +30,7 @@ const Todo = () => {
 
   React.useEffect(() => {
     fetchListData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getItemIndexById = React.useCallback(
@@ -109,52 +100,6 @@ const Todo = () => {
     [tasks, getItemIndexById, deleteTaskById, fetchListData],
   );
 
-  const renderInputSection = React.useCallback(
-    () => (
-      <KeyboardAwareScrollView
-        scrollEnabled={false}
-        enableAutomaticScroll
-        enableOnAndroid>
-        <View style={styles.inputSection}>
-          <TextInput
-            value={nameNewTask}
-            onChangeText={setNameNewTask}
-            style={styles.input}
-            placeholder={'Some title'}
-          />
-
-          <Button
-            title="Add"
-            onPress={handleAddNewTask}
-            style={styles.addBtn}
-            disabled={!nameNewTask || !nameNewTask.trim?.()}
-          />
-        </View>
-      </KeyboardAwareScrollView>
-    ),
-    [handleAddNewTask, nameNewTask],
-  );
-
-  const renderListSection = React.useCallback(
-    () => (
-      <ScrollView
-        style={styles.list}
-        contentContainerStyle={{paddingBottom: bottomTabsHeight * 3.5}}
-        showsVerticalScrollIndicator={false}>
-        {tasks.map((data = {}) => (
-          <Task
-            key={`task-item-${data.id}`}
-            {...data.attributes}
-            id={data?.id || +Date.now()}
-            onDelete={handleTaskDelete}
-            onCheck={handleChangeTaskData}
-          />
-        ))}
-      </ScrollView>
-    ),
-    [handleChangeTaskData, handleTaskDelete, bottomTabsHeight, tasks],
-  );
-
   const renderLoading = React.useCallback(
     () => (
       <View style={styles.loadingContainer}>
@@ -170,9 +115,29 @@ const Todo = () => {
         <Text style={styles.title}>Main screen</Text>
       </SafeAreaView>
 
-      <View style={styles.body}>{renderInputSection()}</View>
-      <View style={styles.listSection}>
-        {!tasks?.length && pending ? renderLoading() : renderListSection()}
+      <View style={styles.body}>
+        <KeyboardAwareScrollView
+          scrollEnabled={false}
+          enableAutomaticScroll
+          enableOnAndroid>
+          <SearchSection
+            onChangeInputText={setNameNewTask}
+            inputValue={nameNewTask}
+            handleAdd={handleAddNewTask}
+          />
+        </KeyboardAwareScrollView>
+
+        <View style={styles.listSection}>
+          {!tasks?.length && pending ? (
+            renderLoading()
+          ) : (
+            <ToDoList
+              data={tasks}
+              handleChangeItemData={handleChangeTaskData}
+              handleDeleteItem={handleTaskDelete}
+            />
+          )}
+        </View>
       </View>
     </View>
   );

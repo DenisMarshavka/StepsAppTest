@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {SCREEN_NAMES, STORAGE_KEYS} from '../../utils';
+import {SCREEN_NAMES, STORAGE_KEYS} from '../utils';
 import {useNavigation} from '@react-navigation/native';
 import {View} from 'react-native';
 
